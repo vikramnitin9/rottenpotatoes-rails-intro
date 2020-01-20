@@ -17,10 +17,18 @@ class MoviesController < ApplicationController
       elsif params["sort_by"] == "release_date"
         @release_date_class = "hilite"
       end
-      @movies = Movie.order(params["sort_by"]).all
+      temp = Movie.order(params["sort_by"])
     else
-      @movies = Movie.all
+      temp = Movie
     end
+
+    @all_ratings = Movie.get_all_ratings
+    if params.key?(:ratings)
+      @selected = params[:ratings].keys
+    else
+      @selected = @all_ratings
+    end
+    @movies = temp.with_ratings(@selected)
   end
 
   def new
