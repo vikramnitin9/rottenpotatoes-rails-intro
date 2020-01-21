@@ -47,6 +47,7 @@ class MoviesController < ApplicationController
 		end
 		@movies = temp.with_ratings(@selected)
 		if session_params_used
+			flash.keep
 			redirect_to movies_path(params)
 		end
 	end
